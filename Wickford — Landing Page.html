@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wickford: Missed calls, worked</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #10163B;
+    --paper: #FFFFFF;
+    --paper-raised: #FFFFFF;
+    --steel: #5B6472;
+    --royal: #1E90FF;
+    --green: #1F8A5A;
+    --line: #E1E8F5;
+    --on-royal: #FFFFFF;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+  h1, h2, h3 {
+    font-family: 'Newsreader', Georgia, serif;
+    font-weight: 700;
+    line-height: 1.06;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  a { color: inherit; }
+  img, svg { max-width: 100%; }
+
+  /* ---------- Header ---------- */
+  header { border-bottom: 1px solid var(--line); }
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 0;
+  }
+  .brand-mark {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-family: 'Newsreader', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+    color: var(--royal);
+  }
+  .brand-mark svg { flex-shrink: 0; }
+  .header-cta {
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--royal);
+    border-bottom: 2px solid var(--royal);
+    padding-bottom: 2px;
+    white-space: nowrap;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items: center;
+    padding: 64px 0 72px;
+  }
+  .hero h1 { font-size: clamp(2.4rem, 5vw, 3.5rem); }
+  .hero-sub {
+    max-width: 46ch;
+    font-size: 1.15rem;
+    color: var(--steel);
+    margin: 22px 0 30px;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.98rem;
+    text-decoration: none;
+    padding: 14px 24px;
+    border-radius: 4px;
+    border: 1.5px solid transparent;
+  }
+  .btn-primary { background: var(--royal); color: var(--on-royal); }
+  .btn-secondary { border-color: var(--royal); color: var(--royal); }
+  .hero-note { margin-top: 16px; font-size: 0.88rem; color: var(--steel); }
+
+  /* ---------- Phone mockup ---------- */
+  .phone-shell {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 16px;
+    max-width: 320px;
+    margin: 0 auto;
+    box-shadow: 0 18px 40px -22px rgba(16,22,59,0.25);
+  }
+  .phone-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.72rem;
+    color: var(--steel);
+    padding: 2px 6px 10px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 12px;
+  }
+  .phone-thread { display: flex; flex-direction: column; gap: 10px; }
+  .bubble { max-width: 82%; padding: 10px 13px; border-radius: 16px; font-size: 0.86rem; }
+  .bubble-in {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+  .bubble-out {
+    background: var(--royal);
+    color: var(--on-royal);
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+  }
+  .bubble-meta { font-size: 0.68rem; color: var(--steel); align-self: flex-end; margin-top: -4px; }
+  .bubble-system { align-self: center; font-size: 0.68rem; color: var(--steel); padding: 4px 0; }
+  .bubble-booked {
+    align-self: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--green);
+    border: 1px solid var(--green);
+    border-radius: 20px;
+    padding: 6px 14px;
+    margin-top: 2px;
+  }
+
+  /* ---------- Section framing ---------- */
+  section { padding: 56px 0; }
+  .section-divider { border: none; border-top: 1px solid var(--line); margin: 0; }
+  .section-label { font-size: 0.85rem; color: var(--royal); font-weight: 700; margin-bottom: 10px; }
+  .section-head { font-size: clamp(1.8rem, 3.4vw, 2.4rem); max-width: 22ch; margin-bottom: 18px; }
+  .section-lede { max-width: 58ch; color: var(--steel); font-size: 1.05rem; }
+
+  /* ---------- Problem strip ---------- */
+  .problem {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 32px;
+  }
+  .problem-cell { padding: 26px 24px; border-right: 1px solid var(--line); background: var(--paper); }
+  .problem-cell:last-child { border-right: none; }
+  .problem-cell p { margin: 0; color: var(--steel); font-size: 0.95rem; }
+  .problem-cell strong {
+    display: block;
+    font-family: 'Newsreader', serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  /* ---------- How it works ---------- */
+  .steps { margin-top: 36px; display: flex; flex-direction: column; }
+  .step { display: grid; grid-template-columns: 64px 1fr; gap: 20px; padding: 24px 0; border-top: 1px solid var(--line); }
+  .step:last-child { border-bottom: 1px solid var(--line); }
+  .step-num { font-family: 'Newsreader', serif; font-weight: 700; font-size: 2rem; color: var(--royal); }
+  .step h3 { font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 6px; }
+  .step p { margin: 0; color: var(--steel); max-width: 52ch; }
+
+  /* ---------- What's included ---------- */
+  .included {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-top: 1px solid var(--line);
+  }
+  .included-row { display: flex; gap: 14px; padding: 18px 24px 18px 0; border-bottom: 1px solid var(--line); }
+  .included-row:nth-child(odd) { border-right: 1px solid var(--line); padding-right: 24px; }
+  .included-row:nth-child(even) { padding-left: 24px; }
+  .included-mark { color: var(--royal); font-weight: 700; font-size: 1.05rem; flex-shrink: 0; }
+  .included-row h4 { margin: 0 0 4px; font-size: 1rem; font-weight: 700; font-family: 'Inter', sans-serif; }
+  .included-row p { margin: 0; color: var(--steel); font-size: 0.92rem; }
+
+  /* ---------- Pricing ---------- */
+  .price-panel {
+    margin-top: 32px;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--royal);
+    border-radius: 6px;
+    padding: 36px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: center;
+    background: var(--paper);
+  }
+  .price-amount { font-family: 'Newsreader', serif; font-weight: 700; font-size: 2.9rem; line-height: 1; color: var(--ink); }
+  .price-amount sup { font-size: 1.05rem; font-weight: 600; }
+  .price-per { color: var(--steel); font-size: 0.95rem; margin-top: 4px; }
+  .price-list { margin: 18px 0 0; padding: 0; list-style: none; }
+  .price-list li { padding: 7px 0; font-size: 0.92rem; color: var(--steel); border-top: 1px solid var(--line); }
+  .price-list li:first-child { border-top: none; }
+  .price-list li strong { color: var(--ink); }
+
+  /* ---------- CTA ---------- */
+  .cta-panel {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--royal);
+    border-radius: 6px;
+    padding: 48px 40px;
+    margin-top: 8px;
+  }
+  .cta-panel h2 { color: var(--royal); font-size: clamp(1.8rem, 3.4vw, 2.3rem); max-width: 20ch; }
+  .cta-panel p { color: var(--steel); max-width: 48ch; margin: 16px 0 26px; }
+  .cta-panel .btn-primary { background: var(--royal); color: #FFFFFF; }
+  .cta-panel .btn-secondary { border-color: var(--royal); color: var(--royal); }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 28px 0 40px;
+    color: var(--steel);
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; padding-top: 40px; }
+    .hero-sub { max-width: 100%; }
+    .problem { grid-template-columns: 1fr; }
+    .problem-cell { border-right: none; border-bottom: 1px solid var(--line); }
+    .problem-cell:last-child { border-bottom: none; }
+    .included { grid-template-columns: 1fr; }
+    .included-row:nth-child(odd) { border-right: none; padding-right: 0; }
+    .included-row:nth-child(even) { padding-left: 0; }
+    .price-panel { grid-template-columns: 1fr; }
+    .step { grid-template-columns: 44px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-row">
+    <div class="brand-mark">
+      <svg width="31" height="33" viewBox="0 0 24 24" fill="none" stroke="#1E90FF" stroke-width="1.6" stroke-linecap="round">
+        <circle cx="6" cy="18" r="1.7" fill="#1E90FF" stroke="none"></circle>
+        <path d="M6 18a9 9 0 0 1 9-9"></path>
+        <path d="M6 18a13 13 0 0 1 13-13"></path>
+      </svg>
+      Wickford
+    </div>
+    <a class="header-cta" href="tel:+16305550142">(630) 555-0142</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div>
+      <h1>You're working, but your phone keeps ringing.</h1>
+      <p class="hero-sub">Wickford answers every call you can't. The second you miss one, it texts the caller back, has a real conversation, and puts a booked appointment on your calendar, often before you're back at your truck.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="tel:+16305550142">Call and let it ring through</a>
+        <a class="btn btn-secondary" href="sms:+16305550142">Text it yourself</a>
+      </div>
+      <p class="hero-note">Call or text the number above from your own phone. You'll see exactly what your customers see.</p>
+    </div>
+    <div class="phone-shell">
+      <div class="phone-bar">
+        <span>Missed Call</span>
+        <span>2:14 PM</span>
+      </div>
+      <div class="phone-thread">
+        <div class="bubble-system">Homeowner called, no answer</div>
+        <div class="bubble bubble-out">Sorry we missed you! This is Wickford for Kowalski Roofing. What's going on with your roof?</div>
+        <div class="bubble-meta">Sent 9 sec after the missed call</div>
+        <div class="bubble bubble-in">Storm knocked a branch through it yesterday, need someone out this week</div>
+        <div class="bubble bubble-out">We can get a tech out Thursday between 9 and 11am to take a look. Does that work?</div>
+        <div class="bubble bubble-in">Yes that works</div>
+        <div class="bubble-booked">Booked for Thu 9:00 AM, added to calendar</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <section>
+    <div class="section-label">The problem</div>
+    <h2 class="section-head">Missed calls aren't lost customers. They're customers who called someone else.</h2>
+    <p class="section-lede">When you're mid-job, calls go to voicemail. Most people don't leave one. They hang up and dial the next name on the list. By the time you call back, the job's already booked with a competitor.</p>
+    <div class="problem">
+      <div class="problem-cell">
+        <strong>Ringing, unanswered</strong>
+        <p>A call comes in while you're up a ladder or under a sink. It rings out.</p>
+      </div>
+      <div class="problem-cell">
+        <strong>No callback</strong>
+        <p>Most callers won't leave a voicemail, and by evening the details are cold.</p>
+      </div>
+      <div class="problem-cell">
+        <strong>Job goes elsewhere</strong>
+        <p>They call the next number on their search. You never even knew you lost it.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <section>
+    <div class="section-label">How it works</div>
+    <h2 class="section-head">Three steps, no app for your customer to download.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h3>You miss a call</h3>
+          <p>Nothing changes about how your phone works. You keep running jobs; Wickford is watching in the background.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h3>Wickford texts back in seconds</h3>
+          <p>The caller gets a text under your business name, has a real back-and-forth about what they need, and gets asked for the details that matter: address, issue, timing.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h3>The appointment lands on your calendar</h3>
+          <p>You get a notification with the job details already filled in. Show up, do the work. No callback required.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <section>
+    <div class="section-label">What's included</div>
+    <h2 class="section-head">Everything runs under your business name.</h2>
+    <div class="included">
+      <div class="included-row">
+        <span class="included-mark">✓</span>
+        <div><h4>Instant missed-call text-back</h4><p>Every unanswered call gets a reply within seconds, day or night.</p></div>
+      </div>
+      <div class="included-row">
+        <span class="included-mark">✓</span>
+        <div><h4>Real conversation, not a script</h4><p>Handles follow-up questions naturally instead of dead-ending on one canned reply.</p></div>
+      </div>
+      <div class="included-row">
+        <span class="included-mark">✓</span>
+        <div><h4>Calendar booking</h4><p>Appointments go straight onto the calendar you already use.</p></div>
+      </div>
+      <div class="included-row">
+        <span class="included-mark">✓</span>
+        <div><h4>Weekly recovered-lead report</h4><p>A plain-language summary of what came in and what got booked.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <section>
+    <div class="section-label">Pricing</div>
+    <h2 class="section-head">One plan. No contract.</h2>
+    <div class="price-panel">
+      <div>
+        <div class="price-amount">$397<sup>/mo</sup></div>
+        <div class="price-per">Cancel anytime. First 14 days are free.</div>
+        <ul class="price-list">
+          <li><strong>$0</strong> to start the trial</li>
+          <li><strong>$497</strong> one-time setup, waived if you stay on after the trial</li>
+          <li>Unlimited missed-call recoveries, one phone number, one business</li>
+        </ul>
+      </div>
+      <a class="btn btn-primary" href="mailto:hello@wickford.example?subject=Start%20my%20Wickford%20trial">Start free trial</a>
+    </div>
+  </section>
+
+  <section>
+    <div class="cta-panel">
+      <h2>See it on your own missed calls before you pay for anything.</h2>
+      <p>Call the number above from your phone, let it ring through, and watch the text arrive. Ten minutes on the phone with us covers the rest.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="tel:+16305550142">(630) 555-0142</a>
+        <a class="btn btn-secondary" href="mailto:hello@wickford.example?subject=Wickford%20demo%20call">Email instead</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap" style="display:flex; justify-content:space-between; width:100%; flex-wrap:wrap; gap:10px;">
+    <span>Wickford, Glen Ellyn, IL</span>
+    <span>hello@wickford.example or (630) 555-0142</span>
+  </div>
+</footer>
+
+</body>
+</html>
